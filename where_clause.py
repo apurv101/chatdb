@@ -25,40 +25,16 @@ def if_where_in_solution(solution):
         return False
 
 
-def get_all_the_columns_being_used_in_where_query(solution):
-    template = ChatPromptTemplate.from_messages(
-            [
-                SystemMessage(
-                    content=(
-                        f"In the below sql query what are different column names being used in where clause?"
-                        f"Prepend and append each column name with three backticks '```'"
-                    )
-                ),
-                HumanMessagePromptTemplate.from_template("{sql_query}"),
-
-            ]
-        )
-    
-    answer = chat_llm(template.format_messages(sql_query=solution))
-    print(answer.content)
-    return answer.content
 
 
 
-
-def gather_all_column_information(query, unique_id, uri_db, relevant_tables_and_columns):
-    connection = psycopg2.connect(uri_db)
+def gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns):
+    connection = psycopg2.connect(db_uri)
     cursor = connection.cursor()
 
 
     for table_name, column_name, data_type in relevant_tables_and_columns:
         if data_type == 'character varying':
-            query = "select distinct " + column_name + " from " + table_name
-            print(query)
-            cursor.execute(query)
-            tables = cursor.fetchall()
-            print(tables)
-
             filename_t = 'csvs/columns_' + unique_id + '___' + table_name + '___' + column_name + '.csv'
 
             ## Check if csv exists
@@ -66,6 +42,11 @@ def gather_all_column_information(query, unique_id, uri_db, relevant_tables_and_
                 print("File exists")
                 continue
             else:
+                query = "select distinct " + column_name + " from " + table_name
+                print(query)
+                cursor.execute(query)
+                tables = cursor.fetchall()
+                print(tables)
                 df = pd.DataFrame(tables, columns=[column_name])
                 df.to_csv(filename_t, index=False)
                 loader = CSVLoader(file_path=filename_t, encoding="utf8")
@@ -89,7 +70,7 @@ def gather_all_column_information(query, unique_id, uri_db, relevant_tables_and_
             most_relevant_values = []
             for doc in docs:
                 most_relevant_values.append(doc.page_content)
-            column_value_info = 'Some of the most relevant values in the column ' + column_name + 'of table '+ table_name + ' are: ' + '\n'.join(most_relevant_values) + '\n\n\n'
+            column_value_info = 'Some of the most relevant values in the column "' + column_name + '" of table "'+ table_name + '" are: ' + '\n'.join(most_relevant_values) + '\n\n\n'
             all_column_value_info += column_value_info
 
     return all_column_value_info

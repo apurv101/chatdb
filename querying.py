@@ -14,6 +14,7 @@ from llm import llm, chat_llm, embeddings
 from langchain.memory import ChatMessageHistory
 import pandas as pd
 from llm import llm, chat_llm
+from where_clause import *
 
 history = ChatMessageHistory()
 
@@ -112,6 +113,7 @@ def gather_information(query, unique_id):
         table_name= table_name.split(":")[1].strip()
         relevant_tables.append(table_name)
         column_name = column_name.split(":")[1].strip()
+        data_type = data_type.split(":")[1].strip()
         relevant_tables_and_columns.append((table_name, column_name, data_type))
 
 
@@ -269,8 +271,15 @@ def complete_process(query, unique_id, db_uri):
     solution = generate_template_for_sql(query, relevant_tables, table_info, foreign_key_info, additional_table_info)
 
 
+    if if_where_in_solution(solution):
+        all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
+        solution = generate_template_for_sql_with_where_clause(query, relevant_tables, table_info, foreign_key_info, additional_table_info, all_column_value_info)
+        result = execute_the_solution(db_uri, solution)
+        return solution, result
+
+
     result = execute_the_solution(db_uri, solution)
-    return result
+    return solution, result
     
 
 
@@ -293,12 +302,15 @@ def complete_process(query, unique_id, db_uri):
 
 
 """
+
 from querying import *
-unique_id = '3d2d655e_0f26_42ef_bbf0_8859fe5f6196'
+from where_clause import *
+unique_id = '3ebd71ae_9a51_4c62_9268_562e33222998'
 db_uri = 'postgresql://apoorvagarwal@localhost:5432/parceldb'
-query = "Write the names of all the villages in Dausa of Rajasthan?"
+query = "Write the names of all the villages in Dausa district of Rajasthan?"
 relevant_tables, relevant_tables_and_columns, table_info, foreign_key_info, additional_table_info = gather_information(query, unique_id)
 solution = generate_template_for_sql(query, relevant_tables, table_info, foreign_key_info, additional_table_info)
+all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
 execute_the_solution(db_uri, solution)
 
 """
