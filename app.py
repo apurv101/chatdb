@@ -45,11 +45,8 @@ st.title("RDS Database Chat App")
 st.sidebar.subheader("Contact Us")
 st.sidebar.markdown(
     """
-    [Streamlit](https://www.streamlit.io/) is an open-source app framework for Machine Learning and Data Science teams. 
-    If you have any questions, comments, or suggestions, please reach out to us at
-    [  
-        ![Streamlit Logo](https://streamlit.io/images/brand/streamlit-logo-primary-colormark-darktext.png)
-    ](https://www.streamlit.io/contact-us)
+    [ChatDB](https://github.com/chatdbtech/chatdb) is an open-source app to chat with any Relational Database System. 
+    If you have any questions, comments, or suggestions, please reach out to us at info@chatdb.tech 
     """
 )
 

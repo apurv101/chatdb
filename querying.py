@@ -215,14 +215,16 @@ def check_if_users_query_want_general_schema_information_or_sql(query):
     
     
 
-def prompt_when_user_want_general_db_information(query):
+def prompt_when_user_want_general_db_information(query, db_uri):
     template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
                     content=(
-                        f"You are an assistant who writes SQL queries."
-                        f"Given the text below, write a SQL query that answers the user's question."
+                        "You are an assistant who writes SQL queries."
+                        "Given the text below, write a SQL query that answers the user's question."
                         "Prepend and append the SQL query with three backticks '```'"
+                        "Write select query whenever possible"
+                        f"Connection string to this database is {db_uri}"
                     )
                 ),
                 HumanMessagePromptTemplate.from_template("{text}"),
@@ -262,24 +264,34 @@ def complete_process(query, unique_id, db_uri):
     answer_to_question_general_schema = check_if_users_query_want_general_schema_information_or_sql(query)
 
     if answer_to_question_general_schema == "yes":
-        solution = prompt_when_user_want_general_db_information(query)
-        result = execute_the_solution(solution)
+        solution = prompt_when_user_want_general_db_information(query, db_uri)
+        result = execute_the_solution(db_uri, solution)
         return result
 
     relevant_tables, relevant_tables_and_columns, table_info, foreign_key_info, additional_table_info = gather_information(query, unique_id)
 
     solution = generate_template_for_sql(query, relevant_tables, table_info, foreign_key_info, additional_table_info)
 
+    result = execute_the_solution(db_uri, solution)
 
-    if if_where_in_solution(solution):
-        all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
-        solution = generate_template_for_sql_with_where_clause(query, relevant_tables, table_info, foreign_key_info, additional_table_info, all_column_value_info)
-        result = execute_the_solution(db_uri, solution)
-        return solution, result
+    print("*"*10)
+    print(len(result[0]))
+    print(result[0])
+    print("*"*10)
+
+    ### check if result contains any rows
+    if result[0][0] is None:
+        # return solution, result
+
+        if if_where_in_solution(solution):
+            all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
+            solution = generate_template_for_sql_with_where_clause(query, relevant_tables, table_info, foreign_key_info, additional_table_info, all_column_value_info)
+            result = execute_the_solution(db_uri, solution)
+            return result
 
 
     result = execute_the_solution(db_uri, solution)
-    return solution, result
+    return result
     
 
 
