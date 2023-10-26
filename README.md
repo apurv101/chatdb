@@ -12,7 +12,7 @@ To run the app in a Docker container, follow these instructions:
 
    ```shell
    git clone https://github.com/chatdbtech/chatdb.git
-   cd rds-database-chat-app
+   cd chatdb
 
    ```
 
