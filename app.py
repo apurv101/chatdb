@@ -1,18 +1,22 @@
 import streamlit as st
 import requests
 from querying import save_db_details, complete_process
+import os
+
+# Define the folder names
+folders_to_create = ['csvs', 'vectors']
+
+# Check and create folders if they don't exist
+for folder_name in folders_to_create:
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+        print(f"Folder '{folder_name}' created.")
+    else:
+        print(f"Folder '{folder_name}' already exists.")
 
 
 # Function to call the API with the provided URI
 def call_api(uri):
-    # You would replace this with your actual API endpoint
-    # api_endpoint = "http://127.0.0.1:5000/db_uri"
-    # response = requests.get(api_endpoint, json={"uri": uri})
-    # print(response.json())
-    # if response.status_code == 200:
-    #     return response.json()
-    # else:
-    #     return {"error": "Failed to start chat"}
     unique_id = save_db_details(uri)
     st.session_state.unique_id = unique_id
     st.session_state.db_uri = uri
@@ -24,13 +28,6 @@ def call_api(uri):
 
 # Function to call the API with the provided URI and user message
 def call_api_with_message(message):
-    # You would replace this with your actual API endpoint
-    # api_endpoint = "http://127.0.0.1:5000/chat"
-    # response = requests.post(api_endpoint, json={"message": message})
-    # if response.status_code == 200:
-    #     return response.json()
-    # else:
-    #     return {"error": "Failed to send message"}
     unique_id = st.session_state.unique_id
     db_uri = st.session_state.db_uri
     print(message, unique_id, db_uri)

@@ -34,6 +34,16 @@ docker run -p 8501:8501 rds-chat-app
 
 This will start the app inside a Docker container and expose it on port 8501.
 
+## Environment Configuration
+
+1. Create a `.env` file in the root directory of the app if it doesn't already exist.
+
+2. Open the `.env` file and add the following line with your OpenAI API key:
+
+   ```shell
+   OPENAI_API_KEY=your-openai-key
+   ```
+
 ## Using ChatDB
 
 ChatDB is designed to connect to your database and allow you to communicate with it. Here are the steps to get started:
