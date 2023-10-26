@@ -11,7 +11,7 @@ To run the RDS Database Chat App in a Docker container, follow these instruction
 2. Clone the repo to your local machine and navigate to the app directory by running the following commands:
 
    ```shell
-   git clone <repository_url>
+   git clone https://github.com/chatdbtech/chatdb.git
    cd rds-database-chat-app
 
    ```
@@ -52,6 +52,6 @@ The RDS Database Chat App is designed to connect to your database and allow you 
 
 ### Contact Us
 
-If you have any questions, comments, or suggestions about this app or Streamlit in general, please feel free to [contact Streamlit](https://www.streamlit.io/contact-us).
+If you have any questions, comments, or suggestions about this app or Streamlit in general, please feel free to [contact Us](https://www.streamlit.io/contact-us).
 
 Enjoy using the RDS Database Chat App to interact with your database through a user-friendly interface!
