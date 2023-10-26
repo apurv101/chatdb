@@ -20,7 +20,7 @@ To run the app in a Docker container, follow these instructions:
 
 ```shell
 
-docker build -t rds-chat-app .
+docker build -t chatdb .
 
 ```
 
@@ -28,7 +28,7 @@ docker build -t rds-chat-app .
 
 ```shell
 
-docker run -p 8501:8501 rds-chat-app
+docker run -p 8501:8501 chatdb
 
 ```
 
