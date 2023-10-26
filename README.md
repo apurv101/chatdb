@@ -62,6 +62,6 @@ ChatDB is designed to connect to your database and allow you to communicate with
 
 ### Contact Us
 
-If you have any questions, comments, or suggestions about this app or Streamlit in general, please feel free to [contact Us](https://www.streamlit.io/contact-us).
+If you have any questions, comments, or suggestions about this app, please feel free to [contact Us](https://www.streamlit.io/contact-us).
 
 Enjoy using the ChatDB to interact with your database through a user-friendly interface!
