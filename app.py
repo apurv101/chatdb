@@ -43,7 +43,9 @@ st.sidebar.subheader("Contact Us")
 st.sidebar.markdown(
     """
     [ChatDB](https://github.com/chatdbtech/chatdb) is an open-source app to chat with any Relational Database System. 
-    If you have any questions, comments, or suggestions, please reach out to us at info@chatdb.tech 
+    If you have any questions, comments, or suggestions, please reach out to us at info@chatdb.tech. 
+
+    If your database is not accessible publicly, for example, if it is running on localhost or within a virtual private network, you can still use ChatDB by following the instructions in the [GitHub repository](https://github.com/chatdbtech/chatdb).
     """
 )
 
