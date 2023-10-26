@@ -1,10 +1,10 @@
-# RDS Database Chat App
+# ChatDB - RDS Database Chat App
 
-The RDS Database Chat App is a Streamlit-based application that allows you to connect and communicate with any database. You can run this app using Docker for easy deployment. With this app, you can start a conversation with your database and retrieve information as needed.
+ChatDB - an RDS Database Chat App is a Streamlit-based application that allows you to connect and communicate with any database. You can run this app using Docker for easy deployment. With this app, you can start a conversation with your database and retrieve information as needed.
 
 ## Docker Setup
 
-To run the RDS Database Chat App in a Docker container, follow these instructions:
+To run the app in a Docker container, follow these instructions:
 
 1. Make sure you have Docker installed on your system.
 
@@ -34,9 +34,9 @@ docker run -p 8501:8501 rds-chat-app
 
 This will start the app inside a Docker container and expose it on port 8501.
 
-## Using the RDS Database Chat App
+## Using ChatDB
 
-The RDS Database Chat App is designed to connect to your database and allow you to communicate with it. Here are the steps to get started:
+ChatDB is designed to connect to your database and allow you to communicate with it. Here are the steps to get started:
 
 ### Instructions
 
@@ -54,4 +54,4 @@ The RDS Database Chat App is designed to connect to your database and allow you 
 
 If you have any questions, comments, or suggestions about this app or Streamlit in general, please feel free to [contact Us](https://www.streamlit.io/contact-us).
 
-Enjoy using the RDS Database Chat App to interact with your database through a user-friendly interface!
+Enjoy using the ChatDB to interact with your database through a user-friendly interface!
