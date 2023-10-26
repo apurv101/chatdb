@@ -7,10 +7,16 @@ WORKDIR /app
 # Install system packages for building Python packages
 RUN apt-get update && apt-get install -y build-essential
 
+# Create a virtual environment
+RUN python -m venv /venv
+
+# Set the virtual environment as the active Python environment
+ENV PATH="/venv/bin:$PATH"
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
+# Install any needed packages specified in requirements.txt within the virtual environment
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the port that Streamlit will run on
