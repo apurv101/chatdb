@@ -4,7 +4,7 @@
 
 ## Disclaimer
 
-It is recommended that you create a user without write permissions to connect with this agent.
+It is recommended that you create a user without write permissions to connect with this agent, since this agent might perform DML statements on your database. Use with care!!
 
 ## Docker Setup
 
