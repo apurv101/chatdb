@@ -15,6 +15,9 @@ from langchain.memory import ChatMessageHistory
 import pandas as pd
 from llm import llm, chat_llm
 import os
+import threading
+
+
 
 
 
@@ -28,12 +31,17 @@ def if_where_in_solution(solution):
 
 
 
-def gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns):
+def gather_all_column_information(query, solution, unique_id, db_uri, relevant_tables_and_columns):
     connection = psycopg2.connect(db_uri)
     cursor = connection.cursor()
 
 
+
     for table_name, column_name, data_type in relevant_tables_and_columns:
+        if if_where_in_solution(solution):
+            distinct_query = "select distinct " + column_name + " from " + table_name + ""
+        else:
+            distinct_query = "select distinct " + column_name + " from " + table_name + " limit 10"
         if data_type == 'character varying':
             filename_t = 'csvs/columns_' + unique_id + '___' + table_name + '___' + column_name + '.csv'
 
@@ -42,9 +50,9 @@ def gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_
                 print("File exists")
                 continue
             else:
-                query = "select distinct " + column_name + " from " + table_name
-                print(query)
-                cursor.execute(query)
+                # query = "select distinct " + column_name + " from " + table_name + ""
+                print(distinct_query)
+                cursor.execute(distinct_query)
                 tables = cursor.fetchall()
                 print(tables)
                 df = pd.DataFrame(tables, columns=[column_name])

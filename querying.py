@@ -284,7 +284,7 @@ def complete_process(query, unique_id, db_uri):
         # return solution, result
 
         if if_where_in_solution(solution):
-            all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
+            all_column_value_info = gather_all_column_information(query, solution, unique_id, db_uri, relevant_tables_and_columns)
             solution = generate_template_for_sql_with_where_clause(query, relevant_tables, table_info, foreign_key_info, additional_table_info, all_column_value_info)
             result = execute_the_solution(db_uri, solution)
             return result
@@ -317,12 +317,12 @@ def complete_process(query, unique_id, db_uri):
 
 from querying import *
 from where_clause import *
-unique_id = '3ebd71ae_9a51_4c62_9268_562e33222998'
+unique_id = 'a3a30875_3df4_453e_832d_49fb43409cda'
 db_uri = 'postgresql://apoorvagarwal@localhost:5432/parceldb'
-query = "Write the names of all the villages in Dausa district of Rajasthan?"
+query = "what are different dlc areas and their rates in rajasthan?"
 relevant_tables, relevant_tables_and_columns, table_info, foreign_key_info, additional_table_info = gather_information(query, unique_id)
 solution = generate_template_for_sql(query, relevant_tables, table_info, foreign_key_info, additional_table_info)
-all_column_value_info = gather_all_column_information(query, unique_id, db_uri, relevant_tables_and_columns)
+all_column_value_info = gather_all_column_information(query, solution, unique_id, db_uri, relevant_tables_and_columns)
 execute_the_solution(db_uri, solution)
 
 """
