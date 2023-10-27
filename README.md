@@ -1,6 +1,10 @@
 # [ChatDB](http://chatdb.tech/) - RDS Database Chat App
 
-[ChatDB](http://chatdb.tech/) - an RDS Database Chat App is a Streamlit-based application that allows you to connect and communicate with any database. You can run this app using Docker for easy deployment. With this app, you can start a conversation with your database and retrieve information as needed.
+[ChatDB](http://chatdb.tech/) - an RDS Database Chat App is a Streamlit-based application that allows you to connect and communicate with any database. You can run this app using Docker for easy deployment. With this app, you can start a conversation with your database and retrieve information as needed. This app performs way better than langchain's SQL agent.
+
+## Disclaimer
+
+It is recommended that you create a user without write permissions to connect with this agent.
 
 ## Docker Setup
 
