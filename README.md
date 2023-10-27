@@ -28,7 +28,7 @@ docker build -t chatdb .
 
 ```shell
 
-docker run -p 8501:8501 chatdb
+docker run -d -p 8501:8501 chatdb
 
 ```
 
@@ -62,6 +62,6 @@ ChatDB is designed to connect to your database and allow you to communicate with
 
 ### Contact Us
 
-If you have any questions, comments, or suggestions about this app, please feel free to [contact Us](https://www.streamlit.io/contact-us).
+If you have any questions, comments, or suggestions about this app, please feel free to [contact us](info@chatdb.tech).
 
 Enjoy using the ChatDB to interact with your database through a user-friendly interface!
