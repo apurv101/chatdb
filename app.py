@@ -46,6 +46,8 @@ st.sidebar.markdown(
     If you have any questions, comments, or suggestions, please reach out to us at info@chatdb.tech. 
 
     If your database is not accessible publicly, for example, if it is running on localhost or within a virtual private network, you can still use ChatDB by following the instructions in the [GitHub repository](https://github.com/chatdbtech/chatdb).
+
+    It is recommended that you create a user without write permissions to connect with this agent, since this agent might perform DML statements on your database. Use with care!!
     """
 )
 
