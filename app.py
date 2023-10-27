@@ -36,7 +36,7 @@ def call_api_with_message(message):
 
 
 # Streamlit app
-st.title("RDS Database Chat App")
+st.title("ChatDB - RDS Database Chat App")
 
 ## Contact us button at top right
 st.sidebar.subheader("Contact Us")
