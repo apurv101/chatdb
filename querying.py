@@ -15,6 +15,7 @@ from langchain.memory import ChatMessageHistory
 import pandas as pd
 from llm import llm, chat_llm
 from where_clause import *
+from table_description import get_top_10_unique_values
 
 history = ChatMessageHistory()
 
@@ -24,11 +25,8 @@ history = ChatMessageHistory()
 
 """
 
-def save_db_details(db_uri='postgresql://apoorvagarwal@localhost:5432/parceldb'):
 
-    unique_id = str(uuid4()).replace("-", "_")
-    connection = psycopg2.connect(db_uri)
-    cursor = connection.cursor()
+def get_basic_table_details(cursor):
     cursor.execute("""SELECT
             c.table_name,
             c.column_name,
@@ -41,23 +39,11 @@ def save_db_details(db_uri='postgresql://apoorvagarwal@localhost:5432/parceldb')
                 FROM pg_tables
                 WHERE schemaname = 'public'
     );""")
-    tables = cursor.fetchall()
-
-    filename_t = 'csvs/tables_' + unique_id + '.csv'
-    
+    tables_and_columns = cursor.fetchall()
+    return tables_and_columns
 
 
-    ## Get all the tables and columns and enter them in a pandas dataframe
-    df = pd.DataFrame(tables, columns=['table_name', 'column_name', 'data_type'])
-    df.to_csv(filename_t, index=False)
-
-
-    loader = CSVLoader(file_path=filename_t, encoding="utf8")
-    data = loader.load()
-    vectordb = Chroma.from_documents(data, embedding=embeddings, persist_directory="./vectors/tables_"+ unique_id)
-    vectordb.persist()
-
-
+def get_foreign_key_info(cursor):
     query_for_foreign_keys = """SELECT
     conrelid::regclass AS table_name,
     conname AS foreign_key,
@@ -78,11 +64,46 @@ def save_db_details(db_uri='postgresql://apoorvagarwal@localhost:5432/parceldb')
     ORDER BY
         conrelid::regclass::text, contype DESC;
     """
-    
+
     cursor.execute(query_for_foreign_keys)
+    foreign_keys = cursor.fetchall()
+
+    return foreign_keys
+
+
+
+def create_vectors(filename, persist_directory):
+    loader = CSVLoader(file_path=filename, encoding="utf8")
+    data = loader.load()
+    vectordb = Chroma.from_documents(data, embedding=embeddings, persist_directory=persist_directory)
+    vectordb.persist()
+
+
+
+
+
+def save_db_details(db_uri='postgresql://apoorvagarwal@localhost:5432/parceldb'):
+
+    unique_id = str(uuid4()).replace("-", "_")
+    connection = psycopg2.connect(db_uri)
+    cursor = connection.cursor()
+
+    tables_and_columns = get_basic_table_details(cursor)
+    values = []
+
+    ## Get all the tables and columns and enter them in a pandas dataframe
+    df = pd.DataFrame(tables_and_columns, columns=['table_name', 'column_name', 'data_type'])
+    filename_t = 'csvs/tables_' + unique_id + '.csv'
+    df.to_csv(filename_t, index=False)
+
+    
+
+
+    create_vectors(filename_t, "./vectors/tables_"+ unique_id)
+
 
     ## Get all the foreign keys and enter them in a pandas dataframe
-    foreign_keys = cursor.fetchall()
+    foreign_keys = get_foreign_key_info(cursor)
     df = pd.DataFrame(foreign_keys, columns=['table_name', 'foreign_key', 'foreign_key_details', 'referred_table', 'referred_columns'])
     filename_fk = 'csvs/foreign_keys_' + unique_id + '.csv'
     df.to_csv(filename_fk, index=False)
@@ -128,11 +149,11 @@ def gather_information(query, unique_id):
         table_info += df[df['table_name'] == table].to_string(index=False) + '\n\n\n'
 
     
-
-
     ## Load the foreign keys csv
     filename_fk = 'csvs/foreign_keys_' + unique_id + '.csv'
     df_fk = pd.read_csv(filename_fk)
+
+
 
     ## If table from relevant_tables above lies in refered_table or table_name in df_fk, then add the foreign key details to a string
 
@@ -275,16 +296,18 @@ def complete_process(query, unique_id, db_uri):
     result = execute_the_solution(db_uri, solution)
 
     print("*"*10)
-    print(len(result[0]))
-    print(result[0])
+    print(len(result))
+    print(result)
     print("*"*10)
 
     ### check if result contains any rows
-    if result[0][0] is None:
+
+    if len(result) ==  0 or result is None or result[0] is None or result[0][0] is None:
         # return solution, result
 
         if if_where_in_solution(solution):
             all_column_value_info = gather_all_column_information(query, solution, unique_id, db_uri, relevant_tables_and_columns)
+            print(all_column_value_info)
             solution = generate_template_for_sql_with_where_clause(query, relevant_tables, table_info, foreign_key_info, additional_table_info, all_column_value_info)
             result = execute_the_solution(db_uri, solution)
             return result
@@ -319,7 +342,7 @@ from querying import *
 from where_clause import *
 unique_id = 'a3a30875_3df4_453e_832d_49fb43409cda'
 db_uri = 'postgresql://apoorvagarwal@localhost:5432/parceldb'
-query = "what are different dlc areas and their rates in rajasthan?"
+query = "what are agricultural dlc areas and their rates in rajasthan?"
 relevant_tables, relevant_tables_and_columns, table_info, foreign_key_info, additional_table_info = gather_information(query, unique_id)
 solution = generate_template_for_sql(query, relevant_tables, table_info, foreign_key_info, additional_table_info)
 all_column_value_info = gather_all_column_information(query, solution, unique_id, db_uri, relevant_tables_and_columns)

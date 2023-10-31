@@ -16,7 +16,10 @@ load_dotenv()
 ## load the API key from the environment variable
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
+
 llm = OpenAI(openai_api_key=openai_api_key)
 chat_llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=0.4)
 embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+
+
 
