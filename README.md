@@ -52,6 +52,20 @@ This will start the app inside a Docker container and expose it on port 8501.
 
 
 
+## Alternative Installation without Docker
+
+1. Install Miniconda depending on your OS from (https://docs.conda.io/projects/miniconda/en/latest/index.html)
+
+2. Create a conda environment named `chatdb-venv` using the command `conda create --name chatdb-venv python=3.8`
+
+3. Activate the environment using `conda activate chatdb-venv`
+
+4. Within the root directory run `pip install -r requirements.txt`
+
+5. Run the application using `streamlit run app.py`
+
+
+
 ## Using ChatDB
 
 ChatDB is designed to connect to your database and allow you to communicate with it. Here are the steps to get started:
