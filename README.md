@@ -104,7 +104,6 @@ ChatDB is designed to connect to your database and allow you to communicate with
 8. Here we ask some questions.
 ![Question 1](imgs/img3.png)
 ![Question 2](imgs/img4.png)
-![Question 3](imgs/img5.png)
 
 
 
