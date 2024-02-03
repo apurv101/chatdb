@@ -99,12 +99,12 @@ ChatDB is designed to connect to your database and allow you to communicate with
 6. Navigate to streamlit app and Enter the URI. It should look like this `postgres://apoorvagarwal@localhost:5432/worlddb`. Here replace `apoorvagarwal` with your username.
 
 7. Here is how it looks.
-![Connecting with DB]('imgs/Screenshot 2024-02-02 at 11.43.48 PM.png')
+![Connecting with DB](imgs/img1.png)
 
 8. Here we ask some questions.
-![Question 1]('imgs/Screenshot 2024-02-02 at 11.44.19 PM.png')
-![Question 2]('imgs/Screenshot 2024-02-02 at 11.44.39 PM.png')
-![Question 3]('imgs/Screenshot 2024-02-02 at 11.45.04 PM.png')
+![Question 1](imgs/img1.png)
+![Question 2](imgs/img2.png)
+![Question 3](imgs/img3.png)
 
 
 
