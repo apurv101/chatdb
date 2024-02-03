@@ -54,7 +54,7 @@ This will start the app inside a Docker container and expose it on port 8501.
 
 ## Alternative Installation without Docker
 
-1. Install Miniconda depending on your OS from (https://docs.conda.io/projects/miniconda/en/latest/index.html)
+1. Install Miniconda depending on your OS from https://docs.conda.io/projects/miniconda/en/latest/index.html
 
 2. Create a conda environment named `chatdb-venv` using the command `conda create --name chatdb-venv python=3.8`
 
@@ -81,6 +81,35 @@ ChatDB is designed to connect to your database and allow you to communicate with
 ### Chat with the API
 
 - Enter your message in the chat input box, and the app will display the response from your database. You can have a conversation with the database by entering messages and receiving replies.
+
+
+
+### Chatting with a sample database
+
+1. Clone this repository https://github.com/morenoh149/postgresDBSamples. It has several sample databases. We will dump the `worldDB-1.0` into postgres in local system and try to chat with it.
+
+2. Ensure you have PostgreSQL installed in your system. Run this in terminal to ensure it `psql postgres`.
+
+3. Create a database named `worlddb` using command `create database worlddb`.
+
+4. Navigate to the folder `worldDB-1.0` and run `psql -U your_username -d worlddb -W`
+
+5. Within postgres cli run `\i world.sql`. This will dump the data.
+
+6. Navigate to streamlit app and Enter the URI. It should look like this `postgres://apoorvagarwal@localhost:5432/worlddb`. Here replace `apoorvagarwal` with your username.
+
+7. Here is how it looks.
+![Connecting with DB]('imgs/Screenshot 2024-02-02 at 11.43.48 PM.png')
+
+8. Here we ask some questions.
+![Question 1]('imgs/Screenshot 2024-02-02 at 11.44.19 PM.png')
+![Question 2]('imgs/Screenshot 2024-02-02 at 11.44.39 PM.png')
+![Question 3]('imgs/Screenshot 2024-02-02 at 11.45.04 PM.png')
+
+
+
+
+
 
 ### Contact Us
 
